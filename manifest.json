@@ -1,9 +1,9 @@
 {
   "Name": "Custom Locks Updated",
-  "Author": "Rokugin",
+  "Author": "rokugin",
   "Version": "2.4.0",
   "Description": "Allows you enter some or all locked doors in Pelican Town.",
-  "UniqueID": "Rokugin.CustomLocksUpdated",
+  "UniqueID": "rokugin.customlocksupdated",
   "EntryDll": "CustomLocksUpdated.dll",
   "MinimumApiVersion": "4.0.0",
   "UpdateKeys": [ "Nexus:21148" ]
