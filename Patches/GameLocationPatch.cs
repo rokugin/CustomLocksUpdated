@@ -32,36 +32,27 @@ static class GameLocationPatch {
         );
 
         matcher.MatchStartForward(
+            new CodeMatch(OpCodes.Ldc_R4),
+            new CodeMatch(OpCodes.Ldc_R4),
+            new CodeMatch(OpCodes.Call),
             new CodeMatch(OpCodes.Ldarg_0),
             new CodeMatch(OpCodes.Ldloc_0),
             new CodeMatch(OpCodes.Ldfld),
-            new CodeMatch(OpCodes.Ldc_I4_1),
-            new CodeMatch(OpCodes.Call)
+            new CodeMatch(OpCodes.Ldc_I4_1)
         ).ThrowIfNotMatch("Couldn't find match for open door");
 
         matcher.CreateLabel(out Label openDoorLabel);
 
-        matcher.MatchStartForward(
-            new CodeMatch(OpCodes.Ldsfld),
-            new CodeMatch(OpCodes.Ldstr, "Strings\\Locations:DoorUnlock_NotFriend_Couple"),
-            new CodeMatch(OpCodes.Ldloc_S)
-        ).ThrowIfNotMatch("Couldn't find match for not friend couple door unlock");
+        matcher.MatchStartBackwards(
+            new CodeMatch(OpCodes.Ldloc_0),
+            new CodeMatch(OpCodes.Ldfld),
+            new CodeMatch(OpCodes.Ldlen),
+            new CodeMatch(OpCodes.Conv_I4),
+            new CodeMatch(OpCodes.Ldc_I4_1)
+        ).ThrowIfNotMatch("Couldn't find match for Door action");
 
         matcher.InsertAndAdvance(
-            new CodeInstruction(OpCodes.Call, roomMethod),
-            new CodeInstruction(OpCodes.Brtrue, openDoorLabel)
-        );
-
-        matcher.MatchStartForward(
-            new CodeMatch(OpCodes.Ldsfld),
-            new CodeMatch(OpCodes.Ldstr, "Strings\\Locations:DoorUnlock_NotFriend_"),
-            new CodeMatch(OpCodes.Ldloc_S),
-            new CodeMatch(OpCodes.Callvirt),
-            new CodeMatch(OpCodes.Brfalse_S)
-        ).ThrowIfNotMatch("Couldn't find match for not friend couple door unlock");
-
-        matcher.InsertAndAdvance(
-            new CodeInstruction(OpCodes.Call, roomMethod),
+            new CodeInstruction(OpCodes.Call, roomMethod).MoveLabelsFrom(matcher.Instruction),
             new CodeInstruction(OpCodes.Brtrue, openDoorLabel)
         );
 
