@@ -1,7 +1,7 @@
 {
   "Name": "Custom Locks Updated",
   "Author": "rokugin",
-  "Version": "2.4.1",
+  "Version": "2.4.2",
   "Description": "Allows you to enter houses, shops, and rooms regardless of friendship or time.",
   "UniqueID": "rokugin.customlocksupdated",
   "EntryDll": "CustomLocksUpdated.dll",
